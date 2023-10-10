@@ -1,4 +1,4 @@
- `#000000`
+`#000000`
 # Math formulas
 ## Area
 - Circle: S = πR²
@@ -33,10 +33,10 @@ def area(a, b):
 def perimeter(a, b): 
     '''Принимает число a и b (длина и ширина прямоугольника), возвращает периметр прямоугольника'''
     return (a + b)*2
+```
 _Example:_
 _Input: `2 3`_
 _Ouput: `6 10`_
-```
 
 
 ## **Triangle**
@@ -47,10 +47,10 @@ def area(a, h):
 def perimeter(a, b, c): 
     '''Принимает число a, b, c (стороны треугольника), возвращает периметр треугольника'''
     return a + b + c
+```
 _Example:_
 _Input: `2 3` `2 3 4`_
 _Ouput: `3` `10`_
-```
 ## **square**
 ```
 def area(a):
@@ -60,10 +60,10 @@ def area(a):
 def perimeter(a):
     '''Принимает число a (сторона квадрата), возвращает периметр квадрата'''
     return 4 * a
+```
 _Example:_
 _Input: `5`_
 _Ouput: `25 20`_
-```
 ## **circle**
 ```
 import math
@@ -77,10 +77,10 @@ def area(r):
 def perimeter(r):
     '''Принимает число r (радиус круга), возвращает периметр круга'''
     return 2 * math.pi * r
+```
 _Example:_
 _Input: `4`_
 _Ouput: `50.24 25.12`_
-```
 
 
 
