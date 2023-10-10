@@ -1,3 +1,4 @@
+ `#000000`
 # Math formulas
 ## Area
 - Circle: S = πR²
