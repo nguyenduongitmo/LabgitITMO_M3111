@@ -1,4 +1,4 @@
-`#000000`
+
 # Math formulas
 ## Area
 - Circle: S = πR²
@@ -51,7 +51,7 @@ def perimeter(a, b, c):
 _Example:_
 _Input: `2 3` `2 3 4`_
 _Ouput: `3` `10`_
-## **square**
+## **Square**
 ```
 def area(a):
     '''Принимает число a (сторона квадрата), возвращает площадь  квадрата'''
@@ -64,7 +64,7 @@ def perimeter(a):
 _Example:_
 _Input: `5`_
 _Ouput: `25 20`_
-## **circle**
+## **Circle**
 ```
 import math
     '''Подключит библиотеку math'''
