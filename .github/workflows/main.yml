@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on:  ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -20,15 +20,25 @@ jobs:
 
       - name: Set up Python Environment
         run: |
-          echo "pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64" >> $GITHUB_ENV
-          echo "/opt/hostedtoolcache/Python/3.8.18/x64/bin" >> $GITHUB_PATH
+          if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+            echo "pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64" >> $GITHUB_ENV
+            echo "/opt/hostedtoolcache/Python/3.8.18/x64/bin" >> $GITHUB_PATH
+          else
+            $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
+            $env:Path += ';C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts'
+          fi
 
       - name: Enable Unsecure Commands
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
-          export pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64
-          export PATH=$pythonLocation/bin:$PATH
+          if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+            export pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64
+            export PATH=$pythonLocation/bin:$PATH
+          else
+            $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
+            $env:Path += ';C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts'
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v4.7.1
