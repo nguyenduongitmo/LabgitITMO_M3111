@@ -20,25 +20,31 @@ jobs:
 
       - name: Set up Python Environment
         run: |
-          if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+          if ($env:matrix_os -eq 'ubuntu-latest') {
             echo "pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64" >> $GITHUB_ENV
             echo "/opt/hostedtoolcache/Python/3.8.18/x64/bin" >> $GITHUB_PATH
-          else
+          } elseif ($env:matrix_os -eq 'windows-latest') {
             $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
             $env:Path += ';C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts'
-          fi
+          } else {
+            echo "Unknown operating system"
+            exit 1
+          }
 
       - name: Enable Unsecure Commands
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
-          if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-            export pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64
-            export PATH=$pythonLocation/bin:$PATH
-          else
+          if ($env:matrix_os -eq 'ubuntu-latest') {
+            $env:pythonLocation = '/opt/hostedtoolcache/Python/3.8.18/x64'
+            $env:Path += ":$env:pythonLocation/bin"
+          } elseif ($env:matrix_os -eq 'windows-latest') {
             $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
-            $env:Path += ';C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts'
-          fi
+            $env:Path += ";C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts"
+          } else {
+            echo "Unknown operating system"
+            exit 1
+          }
 
       - name: Set up Python
         uses: actions/setup-python@v4.7.1
