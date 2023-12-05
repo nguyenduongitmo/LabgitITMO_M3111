@@ -30,11 +30,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
           
      # Thêm vào nè
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
 
