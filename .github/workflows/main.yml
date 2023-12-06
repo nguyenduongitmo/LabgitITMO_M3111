@@ -2,9 +2,9 @@ name: CI - Run Unit Test
 
 on:
   push:
-    branches: [ "NO1" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "NO1" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
