@@ -1,0 +1,68 @@
+name: CI - Run Unit Test
+
+on:
+  push:
+    branches: [ "NO1" ]
+  pull_request:
+    branches: [ "NO1" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        run: |
+          if ($env:matrix_os -eq 'ubuntu-latest') {
+            echo "pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64" >> $GITHUB_ENV
+            echo "/opt/hostedtoolcache/Python/3.8.18/x64/bin" >> $GITHUB_PATH
+          } elseif ($env:matrix_os -eq 'windows-latest') {
+            $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
+            $env:Path += ';C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts'
+          } else {
+            echo "Unknown operating system"
+            exit 1
+          }
+
+      - name: Enable Unsecure Commands
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        run: |
+          if ($env:matrix_os -eq 'ubuntu-latest') {
+            $env:pythonLocation = '/opt/hostedtoolcache/Python/3.8.18/x64'
+            $env:Path += ":$env:pythonLocation/bin"
+          } elseif ($env:matrix_os -eq 'windows-latest') {
+            $env:pythonLocation = 'C:\hostedtoolcache\windows\Python\3.8.18\x64'
+            $env:Path += ";C:\hostedtoolcache\windows\Python\3.8.18\x64\Scripts"
+          } else {
+            echo "Unknown operating system"
+            exit 1
+          }
+
+      - name: Set up Python
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: 3.8
+
+      - name: Run My Step
+        id: myStep
+        run: echo "::set-output name=myOutput::some value"
+
+      - name: Set Output Variable
+        run: echo "myOutput=${{ steps.myStep.outputs.myOutput }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Unit Tests
+        run: |
+          python -m unittest discover -s tests -p '*_test.py'
